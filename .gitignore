@@ -70,3 +70,10 @@ crashlytics-build.properties
 # Temporary auto-generated Android Assets
 /[Aa]ssets/[Ss]treamingAssets/aa.meta
 /[Aa]ssets/[Ss]treamingAssets/aa/*
+
+# Final IK files
+_TerrainAutoUpgrade
+_TerrainAutoUpgrade.meta
+RootMotion
+RootMotion.meta
+Plugins.meta
