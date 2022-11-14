@@ -1554,6 +1554,35 @@ MonoBehaviour:
   twistAxis: {x: -1, y: 0, z: 0}
   initialRotation: {x: -0, y: -0, z: -0, w: 1}
   currentSwingTwist: {x: 0, y: 0, z: 0}
+--- !u!114 &1685064361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685064321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64bbde979dd90fa4aa143c6a9e4dff17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useVRoidSetting: 1
+  useToe: 0
+  useWristRotationFix: 1
+--- !u!114 &1685064362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1685064321}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c983a6185496c5f42ad803514e608a72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ElbowFixWeight: 1
+  UpperArmFixWeight: 0.2
 --- !u!1 &1730981155
 GameObject:
   m_ObjectHideFlags: 0
@@ -1918,6 +1947,21 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
   m_PrefabInstance: {fileID: 379217002}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1881100432
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1881100422}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 64bbde979dd90fa4aa143c6a9e4dff17, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useVRoidSetting: 1
+  useToe: 0
+  useWristRotationFix: 1
 --- !u!4 &1908968564 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 8170505458649041731, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
