@@ -10,9 +10,9 @@ public class STAngleLimit : MonoBehaviour
     [Header("Debug tools")]
     public Quaternion initialRotation;
     [SerializeField] float gizmoSize = 1.5f;
-    Vector3 twistAxisRight;
-    Vector3 twistAxisUp;
-    Vector3 twistAxisForward;
+    public Vector3 twistAxisRight;
+    public Vector3 twistAxisUp;
+    public Vector3 twistAxisForward;
     bool isStart = false;
     Quaternion currentRotation;
     Quaternion currentRotationDiff;
@@ -107,8 +107,13 @@ public class STAngleLimit : MonoBehaviour
     public void SetSTAngle(Vector3 swingTwist)
     {
         currentSwingTwist = swingTwist;
-        Debug.Log(currentSwingTwist);
+        //Debug.Log(currentSwingTwist);
         Quaternion q = STInterconversion.SwingTwist2Quaternion(currentSwingTwist, twistAxisRight, twistAxisForward);
         transform.localRotation = initialRotation * q;
+    }
+
+    // 周期スプライン補間を行う関数
+    public void PeriodicSpline(float[] x, float[] y)
+    {
     }
 }
