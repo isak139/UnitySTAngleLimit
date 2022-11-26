@@ -373,8 +373,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   twistAxis: {x: 1, y: 0, z: 0}
-  swingLimit: 45
-  twistLimit: {x: -45, y: 45}
+  swingLimit: 90
+  twistLimit: {x: -180, y: 180}
   initialRotation: {x: 0, y: 0, z: 0, w: 1}
   gizmoSize: 0.5
   currentSwingTwist: {x: 0, y: 0, z: 0}
