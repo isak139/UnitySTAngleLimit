@@ -8,7 +8,7 @@ public class STAngleLimit : MonoBehaviour
     public float swingLimit = 45.0f;
     public Vector2 twistLimit = new Vector2(-45.0f, 45.0f);
     [Header("Debug tools")]
-    public Quaternion initialRotation;
+    //public Quaternion initialRotation;
     [SerializeField] float gizmoSize = 1.5f;
     public Vector3 twistAxisRight;
     public Vector3 twistAxisUp;
@@ -17,6 +17,7 @@ public class STAngleLimit : MonoBehaviour
     Quaternion currentRotation;
     Quaternion currentRotationDiff;
     public Vector3 currentSwingTwist;
+    Quaternion parentRotation;
     private void OnValidate()
     {
         //入力制限
@@ -41,7 +42,7 @@ public class STAngleLimit : MonoBehaviour
             Initialize();
         }
 
-        Quaternion parentRotation;
+        /* Quaternion parentRotation; */
         if (transform.parent != null) parentRotation = transform.parent.rotation;
         else parentRotation = Quaternion.identity;
 
@@ -66,13 +67,14 @@ public class STAngleLimit : MonoBehaviour
     [ContextMenu("Initialize")]
     void Initialize()
     {
-        twistAxisRight = (transform.rotation * twistAxis).normalized;
-        twistAxisUp = (Vector3.Cross(twistAxisRight, -transform.forward)).normalized;
+        twistAxisRight = (transform.localRotation * twistAxis).normalized;
+        twistAxisUp = (Vector3.Cross(twistAxisRight, Quaternion.Inverse(parentRotation) * -transform.forward)).normalized;
         twistAxisForward = (Vector3.Cross(twistAxisRight, twistAxisUp)).normalized;
         if (!isStart)
         {
             //実行後は変更しない．
-            initialRotation = transform.localRotation;
+            //initialRotation = transform.localRotation;
+            //currentSwingTwist = STInterconversion.Quaternion2SwingTwist(currentRotation/* currentRotationDiff */, twistAxisRight, twistAxisUp, twistAxisForward);
         }
     }
     void Start()
@@ -92,9 +94,10 @@ public class STAngleLimit : MonoBehaviour
 
 
         currentRotation = transform.localRotation;
-        currentRotationDiff = currentRotation * Quaternion.Inverse(initialRotation);
+        //Debug.Log(currentRotation);
+        //currentRotationDiff = currentRotation * Quaternion.Inverse(initialRotation);
 
-        currentSwingTwist = STInterconversion.Quaternion2SwingTwist(currentRotationDiff, twistAxisRight, twistAxisUp, twistAxisForward);
+        currentSwingTwist = STInterconversion.Quaternion2SwingTwist(currentRotation/* currentRotationDiff */, twistAxisRight, twistAxisUp, twistAxisForward);
     }
     void LateUpdate()
     {
@@ -102,14 +105,14 @@ public class STAngleLimit : MonoBehaviour
         currentSwingTwist.x = Mathf.Clamp(currentSwingTwist.x, 0, SwingFunction(currentSwingTwist.y));
         currentSwingTwist.z = Mathf.Clamp(currentSwingTwist.z, twistLimit.x, twistLimit.y);
         Quaternion q = STInterconversion.SwingTwist2Quaternion(currentSwingTwist, twistAxisRight, twistAxisForward);
-        transform.localRotation = initialRotation * q;
+        transform.localRotation = q;//initialRotation * q;
     }
     public void SetSTAngle(Vector3 swingTwist)
     {
         currentSwingTwist = swingTwist;
         //Debug.Log(currentSwingTwist);
         Quaternion q = STInterconversion.SwingTwist2Quaternion(currentSwingTwist, twistAxisRight, twistAxisForward);
-        transform.localRotation = initialRotation * q;
+        transform.localRotation = q;//initialRotation * q;
     }
 
     // 周期スプライン補間を行う関数
