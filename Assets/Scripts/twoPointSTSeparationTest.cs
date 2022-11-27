@@ -6,11 +6,12 @@ public class twoPointSTSeparationTest : MonoBehaviour
 {
     [SerializeField][Range(0, 10)] private float duration = 2f;
     [SerializeField] Transform target;
-    //[SerializeField] STAngleLimit targetSTAL;
+    [SerializeField] STAngleLimit targetSTAL;
     [SerializeField] Transform from, to;
     [SerializeField] STAngleLimit fromSTAL, toSTAL;
     [SerializeField] bool isSwing = true;
     [SerializeField] bool isTwist = true;
+    Quaternion swing, twist;
     // Start is called before the first frame update
     void Start()
     {
@@ -21,23 +22,28 @@ public class twoPointSTSeparationTest : MonoBehaviour
     void Update()
     {
         float t = Mathf.PingPong(Time.time / duration, 1);
-        Quaternion fromSwing = Quaternion.FromToRotation(fromSTAL.twistAxisRight, from.localRotation * fromSTAL.twistAxisRight);
+
+        Quaternion fromSwing = Quaternion.FromToRotation(targetSTAL.twistAxisRight, from.localRotation * targetSTAL.twistAxisRight);
         Quaternion fromTwist = Quaternion.Inverse(fromSwing) * from.localRotation;
-        Quaternion toSwing = Quaternion.FromToRotation(toSTAL.twistAxisRight, to.localRotation * toSTAL.twistAxisRight);
+        Quaternion toSwing = Quaternion.FromToRotation(targetSTAL.twistAxisRight, to.localRotation * targetSTAL.twistAxisRight);
         Quaternion toTwist = Quaternion.Inverse(toSwing) * to.localRotation;
-        Quaternion swing = Quaternion.Slerp(fromSwing, toSwing, t);
-        Quaternion twist = Quaternion.Slerp(fromTwist, toTwist, t);
+
+        STLimitInterpolation(fromSwing, fromTwist, toSwing, toTwist);
+
+        Quaternion qs = Quaternion.Slerp(fromSwing, toSwing, t);
+        Quaternion qt = Quaternion.Slerp(Quaternion.identity, twist, t) * toTwist;
+        Debug.Log("swing: " + swing + " twist: " + twist);
         if (isSwing && isTwist)
         {
-            target.localRotation = swing * twist;
+            target.localRotation = qs * qt;
         }
         else if (isSwing)
         {
-            target.localRotation = swing;
+            target.localRotation = qs;
         }
         else if (isTwist)
         {
-            target.localRotation = twist;
+            target.localRotation = qt;
         }
         else
         {
@@ -45,5 +51,33 @@ public class twoPointSTSeparationTest : MonoBehaviour
         }
         /* Quaternion q = Quaternion.Slerp(from.localRotation, to.localRotation, t);
         target.localRotation = q; */
+    }
+
+    void STLimitInterpolation(/* Quaternion[] results, int splits,  */Quaternion fromSwing, Quaternion fromTwist, Quaternion toSwing, Quaternion toTwist)
+    {
+        //ツイスト
+        twist = fromTwist * Quaternion.Inverse(toTwist);
+        Debug.Log(Mathf.Abs(fromSTAL.currentSwingTwist.z - toSTAL.currentSwingTwist.z));
+        if (Mathf.Abs(fromSTAL.currentSwingTwist.z - toSTAL.currentSwingTwist.z) > 180)
+        {
+            if (twist.w > 0)
+            {
+                twist.w = -twist.w;
+                twist.x = -twist.x;
+                twist.y = -twist.y;
+                twist.z = -twist.z;
+            }
+        }
+        else
+        {
+            if (twist.w < 0)
+            {
+                twist.w = -twist.w;
+                twist.x = -twist.x;
+                twist.y = -twist.y;
+                twist.z = -twist.z;
+            }
+        }
+
     }
 }
