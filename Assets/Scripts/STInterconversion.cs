@@ -10,7 +10,7 @@ public class STInterconversion : MonoBehaviour
 
         Quaternion swing = Quaternion.FromToRotation(twistAxisRight, q * twistAxisRight);
         Quaternion twist = Quaternion.Inverse(swing) * q;
-        Debug.Log("swing: " + swing + " twist: " + twist);
+        //Debug.Log("swing: " + swing + " twist: " + twist);
         Vector3 r = Vector3.Project(new Vector3(q.x, q.y, q.z), twistAxisRight);
 
         if (r.sqrMagnitude < Mathf.Epsilon)
