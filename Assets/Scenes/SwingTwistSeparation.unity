@@ -202,7 +202,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   twistAxis: {x: 1, y: 0, z: 0}
-  swingLimit: 45
+  swingLimit: 15
   twistLimit: {x: -180, y: 180}
   gizmoSize: 0.75
   twistAxisRight: {x: 1, y: 0, z: 0}
@@ -300,11 +300,6 @@ MonoBehaviour:
   twistAxisUp: {x: 0, y: 1, z: 0}
   twistAxisForward: {x: 0, y: 0, z: 1}
   currentSwingTwist: {x: 0, y: 0, z: 0}
---- !u!4 &138829396 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 5054963000892501845, guid: 2cc1c198546598640bc2d95c59c7e91c, type: 3}
-  m_PrefabInstance: {fileID: 138829390}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1028487171
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -384,7 +379,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   twistAxis: {x: 1, y: 0, z: 0}
-  swingLimit: 45
+  swingLimit: 15
   twistLimit: {x: -180, y: 180}
   gizmoSize: 0.75
   twistAxisRight: {x: 1, y: 0, z: 0}
@@ -558,7 +553,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   twistAxis: {x: 1, y: 0, z: 0}
-  swingLimit: 45
+  swingLimit: 15
   twistLimit: {x: -180, y: 180}
   gizmoSize: 0.75
   twistAxisRight: {x: 1, y: 0, z: 0}
@@ -580,7 +575,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1402776258}
   - component: {fileID: 1402776259}
-  - component: {fileID: 1402776257}
   m_Layer: 0
   m_Name: Controller
   m_TagString: Untagged
@@ -588,27 +582,6 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!114 &1402776257
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1402776256}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ff1a7e88690b4e040bcc45b320c6e2d4, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  duration: 2
-  target: {fileID: 138829396}
-  targetSTAL: {fileID: 138829392}
-  from: {fileID: 1028487174}
-  to: {fileID: 1252699079}
-  fromSTAL: {fileID: 0}
-  toSTAL: {fileID: 0}
-  isSwing: 0
-  isTwist: 1
 --- !u!4 &1402776258
 Transform:
   m_ObjectHideFlags: 0
@@ -640,10 +613,7 @@ MonoBehaviour:
   targetSTAL: {fileID: 6521066}
   from: {fileID: 1028487174}
   to: {fileID: 1252699079}
-  fromSTAL: {fileID: 1028487173}
-  toSTAL: {fileID: 1252699078}
-  isSwing: 1
-  isTwist: 0
+  splits: 1
 --- !u!1 &1507644734
 GameObject:
   m_ObjectHideFlags: 0
