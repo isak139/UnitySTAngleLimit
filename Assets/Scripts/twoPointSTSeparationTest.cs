@@ -8,10 +8,11 @@ public class twoPointSTSeparationTest : MonoBehaviour
     [SerializeField] Transform target;
     [SerializeField] STAngleLimit targetSTAL;
     [SerializeField] Transform from, to;
-    [SerializeField] STAngleLimit fromSTAL, toSTAL;
-    [SerializeField] bool isSwing = true;
-    [SerializeField] bool isTwist = true;
-    Quaternion swing, twist;
+    [SerializeField] int splits = 5;
+    //[SerializeField] STAngleLimit fromSTAL, toSTAL;
+    //[SerializeField] bool isSwing = true;
+    //[SerializeField] bool isTwist = true;
+    //Quaternion swing, twist;
     // Start is called before the first frame update
     void Start()
     {
@@ -23,17 +24,14 @@ public class twoPointSTSeparationTest : MonoBehaviour
     {
         float t = Mathf.PingPong(Time.time / duration, 1);
 
-        Quaternion fromSwing = Quaternion.FromToRotation(targetSTAL.twistAxisRight, from.localRotation * targetSTAL.twistAxisRight);
-        Quaternion fromTwist = Quaternion.Inverse(fromSwing) * from.localRotation;
-        Quaternion toSwing = Quaternion.FromToRotation(targetSTAL.twistAxisRight, to.localRotation * targetSTAL.twistAxisRight);
-        Quaternion toTwist = Quaternion.Inverse(toSwing) * to.localRotation;
+        Quaternion[] results = new Quaternion[splits + 1];
 
-        STLimitInterpolation(fromSwing, fromTwist, toSwing, toTwist);
+        STLimitWaypointGenerator(targetSTAL, from.localRotation, to.localRotation, splits, results);
 
-        Quaternion qs = Quaternion.Slerp(fromSwing, toSwing, t);
-        Quaternion qt = Quaternion.Slerp(Quaternion.identity, twist, t) * toTwist;
-        Debug.Log("swing: " + swing + " twist: " + twist);
-        if (isSwing && isTwist)
+        Quaternion q = STLimitInterpolation(results, splits, t);
+
+        target.localRotation = q;
+        /* if (isSwing && isTwist)
         {
             target.localRotation = qs * qt;
         }
@@ -48,36 +46,63 @@ public class twoPointSTSeparationTest : MonoBehaviour
         else
         {
             target.localRotation = Quaternion.identity;
-        }
+        } */
         /* Quaternion q = Quaternion.Slerp(from.localRotation, to.localRotation, t);
         target.localRotation = q; */
     }
 
-    void STLimitInterpolation(/* Quaternion[] results, int splits,  */Quaternion fromSwing, Quaternion fromTwist, Quaternion toSwing, Quaternion toTwist)
+    void STLimitWaypointGenerator(STAngleLimit targetSTAL, Quaternion from, Quaternion to, int splits, Quaternion[] results)
     {
-        //ツイスト
-        twist = fromTwist * Quaternion.Inverse(toTwist);
-        Debug.Log(Mathf.Abs(fromSTAL.currentSwingTwist.z - toSTAL.currentSwingTwist.z));
-        if (Mathf.Abs(fromSTAL.currentSwingTwist.z - toSTAL.currentSwingTwist.z) > 180)
+        Quaternion fromSwing = Quaternion.FromToRotation(targetSTAL.twistAxisRight, from * targetSTAL.twistAxisRight);
+        Quaternion fromTwist = Quaternion.Inverse(fromSwing) * from;
+        Quaternion toSwing = Quaternion.FromToRotation(targetSTAL.twistAxisRight, to * targetSTAL.twistAxisRight);
+        Quaternion toTwist = Quaternion.Inverse(toSwing) * to;
+
+        //ツイストの経由点を生成
+        Quaternion twistDiff = fromTwist * Quaternion.Inverse(toTwist);
+        if (Mathf.Abs(STInterconversion.Quaternion2SwingTwist(from, targetSTAL.twistAxisRight, targetSTAL.twistAxisUp, targetSTAL.twistAxisForward).z
+         - STInterconversion.Quaternion2SwingTwist(to, targetSTAL.twistAxisRight, targetSTAL.twistAxisUp, targetSTAL.twistAxisForward).z) > 180)
         {
-            if (twist.w > 0)
+            if (twistDiff.w > 0)
             {
-                twist.w = -twist.w;
-                twist.x = -twist.x;
-                twist.y = -twist.y;
-                twist.z = -twist.z;
+                twistDiff.w = -twistDiff.w;
+                twistDiff.x = -twistDiff.x;
+                twistDiff.y = -twistDiff.y;
+                twistDiff.z = -twistDiff.z;
             }
         }
         else
         {
-            if (twist.w < 0)
+            if (twistDiff.w < 0)
             {
-                twist.w = -twist.w;
-                twist.x = -twist.x;
-                twist.y = -twist.y;
-                twist.z = -twist.z;
+                twistDiff.w = -twistDiff.w;
+                twistDiff.x = -twistDiff.x;
+                twistDiff.y = -twistDiff.y;
+                twistDiff.z = -twistDiff.z;
             }
         }
 
+        //スイングの経由点を生成
+        for (int i = 0; i <= splits; i++)
+        {
+            Quaternion qs = Quaternion.Slerp(fromSwing, toSwing, (float)i / splits);
+            //角度制限
+            Vector3 STqs = STInterconversion.Quaternion2SwingTwist(qs, targetSTAL.twistAxisRight, targetSTAL.twistAxisUp, targetSTAL.twistAxisForward);
+            STqs.x = Mathf.Clamp(STqs.x, 0, targetSTAL.SwingFunction(STqs.y));
+            STqs.z = 0;
+            //STqs.z = Mathf.Clamp(STqs.z, targetSTAL.twistLimit.x, targetSTAL.twistLimit.y);
+            qs = STInterconversion.SwingTwist2Quaternion(STqs, targetSTAL.twistAxisRight, targetSTAL.twistAxisForward);
+
+            Quaternion qt = Quaternion.Slerp(twistDiff, Quaternion.identity, (float)i / splits) * toTwist;
+            results[i] = qs * qt;
+        }
+    }
+
+    Quaternion STLimitInterpolation(Quaternion[] results, int splits, float t)
+    {
+        float temp = t * splits;
+        int index = Mathf.FloorToInt(temp);
+        float subT = temp - index;
+        return Quaternion.Slerp(results[index], results[index + 1], subT);
     }
 }
