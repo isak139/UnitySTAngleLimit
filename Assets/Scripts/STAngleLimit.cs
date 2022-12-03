@@ -28,10 +28,10 @@ public class STAngleLimit : MonoBehaviour
     }
 
     //これを変更することで方位角によって制限角度を変更する．inspectorから制御できるようにする．
-    float SwingFunction(float phi)
+    public float SwingFunction(float phi)
     {
         float theta = (Mathf.Sin(Mathf.Deg2Rad * phi * 3) + 2) * swingLimit;
-        return swingLimit;
+        return theta;
     }
 
     void OnDrawGizmos()
