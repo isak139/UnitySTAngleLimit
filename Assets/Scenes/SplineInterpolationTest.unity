@@ -210,6 +210,47 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2cc1c198546598640bc2d95c59c7e91c, type: 3}
+--- !u!1 &852514494 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5054963000892501841, guid: 2cc1c198546598640bc2d95c59c7e91c, type: 3}
+  m_PrefabInstance: {fileID: 852514493}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &852514495
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 852514494}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0605cd27d9c5b9c468c4513232bd7e66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  twistAxis: {x: 1, y: 0, z: 0}
+  swingLimit: 45
+  pointsX:
+  - 0
+  - 60
+  - 120
+  - 180
+  - 240
+  - 360
+  - 0
+  pointsY:
+  - 30
+  - 26.7
+  - 39.6
+  - 30.8
+  - 36.7
+  - 30
+  - 30
+  twistLimit: {x: -45, y: 45}
+  gizmoSize: 1.5
+  twistAxisRight: {x: 1, y: 0, z: 0}
+  twistAxisUp: {x: 0, y: 1, z: 0}
+  twistAxisForward: {x: 0, y: 0, z: 1}
+  currentSwingTwist: {x: 0, y: 0, z: 0}
 --- !u!1 &1216087849
 GameObject:
   m_ObjectHideFlags: 0
