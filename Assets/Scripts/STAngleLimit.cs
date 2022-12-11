@@ -6,6 +6,8 @@ public class STAngleLimit : MonoBehaviour
 {
     public Vector3 twistAxis = new Vector3(1, 0, 0);
     public float swingLimit = 45.0f;
+    public double[] pointsX = new double[7];
+    public double[] pointsY = new double[7];
     public Vector2 twistLimit = new Vector2(-45.0f, 45.0f);
     [Header("Debug tools")]
     //public Quaternion initialRotation;
@@ -18,6 +20,7 @@ public class STAngleLimit : MonoBehaviour
     Quaternion currentRotationDiff;
     public Vector3 currentSwingTwist;
     Quaternion parentRotation;
+    PeriodicSplineInterpolation spline;
     private void OnValidate()
     {
         //入力制限
@@ -30,7 +33,8 @@ public class STAngleLimit : MonoBehaviour
     //これを変更することで方位角によって制限角度を変更する．inspectorから制御できるようにする．
     public float SwingFunction(float phi)
     {
-        float theta = (Mathf.Sin(Mathf.Deg2Rad * phi * 3) + 2) * swingLimit;
+        //float theta = (Mathf.Sin(Mathf.Deg2Rad * phi * 3) + 2) * swingLimit;
+        float theta = (float)spline.Interpolate(phi);
         return theta;
     }
 
@@ -76,6 +80,7 @@ public class STAngleLimit : MonoBehaviour
             //initialRotation = transform.localRotation;
             //currentSwingTwist = STInterconversion.Quaternion2SwingTwist(currentRotation/* currentRotationDiff */, twistAxisRight, twistAxisUp, twistAxisForward);
         }
+        spline = new PeriodicSplineInterpolation(pointsX, pointsY);
     }
     void Start()
     {
@@ -115,8 +120,4 @@ public class STAngleLimit : MonoBehaviour
         transform.localRotation = q;//initialRotation * q;
     }
 
-    // 周期スプライン補間を行う関数
-    public void PeriodicSpline(float[] x, float[] y)
-    {
-    }
 }
