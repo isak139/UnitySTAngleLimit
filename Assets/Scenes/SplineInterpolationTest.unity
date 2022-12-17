@@ -228,25 +228,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   twistAxis: {x: 1, y: 0, z: 0}
-  swingLimit: 45
-  pointsX:
-  - 0
-  - 60
-  - 120
-  - 180
-  - 240
-  - 360
-  - 0
-  pointsY:
-  - 30
-  - 26.7
-  - 39.6
-  - 30.8
-  - 36.7
-  - 30
-  - 30
+  points:
+  - {x: 0, y: 45}
+  - {x: 30, y: 20}
+  - {x: 60, y: 45}
+  - {x: 90, y: 20}
+  - {x: 120, y: 45}
+  - {x: 180, y: 20}
+  - {x: 210, y: 45}
+  - {x: 240, y: 20}
+  - {x: 270, y: 45}
+  - {x: 300, y: 20}
+  - {x: 330, y: 45}
+  - {x: 360, y: 45}
   twistLimit: {x: -45, y: 45}
-  gizmoSize: 1.5
+  gizmoSize: 0.8
   twistAxisRight: {x: 1, y: 0, z: 0}
   twistAxisUp: {x: 0, y: 1, z: 0}
   twistAxisForward: {x: 0, y: 0, z: 1}
