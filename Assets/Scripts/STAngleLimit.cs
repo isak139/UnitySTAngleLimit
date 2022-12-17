@@ -36,6 +36,13 @@ public class STAngleLimit : MonoBehaviour
             points.Add(new Vector2(180, 45));
             points.Add(new Vector2(360, 45));
         }
+        for (int i = 0; i < points.Count; i++)
+        {
+            Vector2 point = points[i];
+            point.x = Mathf.Clamp(point.x, 0, 360);
+            point.y = Mathf.Clamp(point.y, 0, 180);
+            points[i] = point;
+        }
         //points.Sort((a, b) => a.x.CompareTo(b.x));
     }
 
