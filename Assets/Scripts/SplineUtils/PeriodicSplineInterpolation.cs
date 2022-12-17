@@ -5,32 +5,46 @@ using System;
 
 public class PeriodicSplineInterpolation
 {
-    public const int order = 6; // number of reference points (max 10)
-    double[] x_k = new double[order + 1];
-    double[] y_k = new double[order + 1];
-    //const int datapoints = 1000; // number of datapoints for the interpolation
-    //const double deltaX = 0.1; // sample time 
+    //public const int order = 6; // number of reference points (max 10)
+    int order;
+    double[] x_k;// = new double[order + 1];
+    double[] y_k;// = new double[order + 1];
+    double[,] m;// = new double[order - 1, order - 1];
+    double[] y;// = new double[order - 1];
+    double[] x;// = new double[order - 1];
+    double[] a;// = new double[order + 1];
+    double[] b;// = new double[order + 1];
+    double[] c;// = new double[order + 1];
+    double[] d;// = new double[order + 1];
+    double[] h;// = new double[order];
 
-    double[,] m = new double[order - 1, order - 1];
-    double[] y = new double[order - 1];
-    double[] x = new double[order - 1];
-    //double[] yp = new double[datapoints];
-    //double[] xp = new double[datapoints];
 
-    double[] a = new double[order + 1];
-    double[] b = new double[order + 1];
-    double[] c = new double[order + 1];
-    double[] d = new double[order + 1];
-    double[] h = new double[order];
-    public PeriodicSplineInterpolation(double[] x, double[] y)
+    public PeriodicSplineInterpolation(List<Vector2> points)
     {
-        for (int i = 0; i < order + 1; i++)
+        //初期化
+        order = points.Count;
+        //Debug.Log("order = " + order);
+        x_k = new double[order + 1];
+        y_k = new double[order + 1];
+        for (int i = 0; i < order; i++)
         {
-            x_k[i] = x[i];
-            y_k[i] = y[i];
+            //Debug.Log("x = " + points[i].x + ", y = " + points[i].y);
+            x_k[i] = (double)points[i].x; //x[i];
+            y_k[i] = (double)points[i].y; //y[i];
         }
-        x_k[order] = x[0];
-        y_k[order] = y[0];
+        x_k[order] = (double)points[0].x;
+        y_k[order] = (double)points[0].y;
+
+        m = new double[order - 1, order - 1];
+        y = new double[order - 1];
+        x = new double[order - 1];
+        a = new double[order + 1];
+        b = new double[order + 1];
+        c = new double[order + 1];
+        d = new double[order + 1];
+        h = new double[order];
+
+        // パラメータを計算
         CalcParameters();
     }
 
@@ -121,19 +135,4 @@ public class PeriodicSplineInterpolation
         else
             return false;
     }
-
-    /* public void Interpolate(int order, int resolution)
-    {
-        int i, k;
-        double timestamp;
-        for (i = 0; i < order - 1; i++)
-        {
-            for (k = 0; k < resolution; k++)
-            {
-                timestamp = (double)(k) / (double)(resolution) * h[i];
-                yp[i * resolution + k] = a[i] + b[i] * (timestamp) + c[i] * Math.Pow(timestamp, 2) + d[i] * Math.Pow(timestamp, 3);
-                xp[i * resolution + k] = timestamp + x_k[i];
-            }
-        }
-    } */
 }
