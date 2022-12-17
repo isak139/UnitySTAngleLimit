@@ -5,9 +5,10 @@ using UnityEngine;
 public class STAngleLimit : MonoBehaviour
 {
     public Vector3 twistAxis = new Vector3(1, 0, 0);
-    public float swingLimit = 45.0f;
-    public double[] pointsX = new double[7];
-    public double[] pointsY = new double[7];
+    //public float swingLimit = 45.0f;
+    /* public double[] pointsX = new double[7];
+    public double[] pointsY = new double[7]; */
+    public List<Vector2> points = new List<Vector2>();
     public Vector2 twistLimit = new Vector2(-45.0f, 45.0f);
     [Header("Debug tools")]
     //public Quaternion initialRotation;
@@ -24,10 +25,18 @@ public class STAngleLimit : MonoBehaviour
     private void OnValidate()
     {
         //入力制限
-        swingLimit = Mathf.Clamp(swingLimit, 0, 180);
+        //swingLimit = Mathf.Clamp(swingLimit, 0, 180);
         twistLimit.x = Mathf.Clamp(twistLimit.x, -180, 0);
         twistLimit.y = Mathf.Clamp(twistLimit.y, 0, 180);
         gizmoSize = Mathf.Clamp(gizmoSize, 0.1f, 2);
+        if (points.Count < 3)
+        {
+            points.Clear();
+            points.Add(new Vector2(0, 45));
+            points.Add(new Vector2(180, 45));
+            points.Add(new Vector2(360, 45));
+        }
+        //points.Sort((a, b) => a.x.CompareTo(b.x));
     }
 
     //これを変更することで方位角によって制限角度を変更する．inspectorから制御できるようにする．
@@ -80,7 +89,7 @@ public class STAngleLimit : MonoBehaviour
             //initialRotation = transform.localRotation;
             //currentSwingTwist = STInterconversion.Quaternion2SwingTwist(currentRotation/* currentRotationDiff */, twistAxisRight, twistAxisUp, twistAxisForward);
         }
-        spline = new PeriodicSplineInterpolation(pointsX, pointsY);
+        spline = new PeriodicSplineInterpolation(points);
     }
     void Start()
     {
