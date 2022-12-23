@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // https://www.gamasutra.com/blogs/VegardMyklebust/20150911/253461/Spherical_Spline_Quaternions_For_Dummies.php
-public class Squad {
+public class Squad
+{
 
-	// Returns a smoothed quaternion along the set of quaternions making up the spline, each quaternion is along an equidistant value in t
-	public static Quaternion Spline(Quaternion[] quaternions , float t )
+    // Returns a smoothed quaternion along the set of quaternions making up the spline, each quaternion is along an equidistant value in t
+    public static Quaternion Spline(Quaternion[] quaternions, float t)
     {
         var section = (int)((quaternions.Length - 1) * t);
 
@@ -16,11 +17,11 @@ public class Squad {
         {
             return SplineSegment(quaternions[section], quaternions[section], quaternions[section + 1], quaternions[section + 2], alongLine);
         }
-        else if( section == quaternions.Length - 2 && section > 0)
+        else if (section == quaternions.Length - 2 && section > 0)
         {
             return SplineSegment(quaternions[section - 1], quaternions[section], quaternions[section + 1], quaternions[section + 1], alongLine);
         }
-        else if (  section >= 1 && section<quaternions.Length -2)
+        else if (section >= 1 && section < quaternions.Length - 2)
         {
             return SplineSegment(quaternions[section - 1], quaternions[section], quaternions[section + 1], quaternions[section + 2], alongLine);
         }
@@ -29,9 +30,9 @@ public class Squad {
         return Quaternion.identity;
     }
 
-    static Quaternion SlerpNoInvert(Quaternion fro , Quaternion to, float factor)
+    static Quaternion SlerpNoInvert(Quaternion fro, Quaternion to, float factor)
     {
-       float dot = Quaternion.Dot(fro, to);
+        float dot = Quaternion.Dot(fro, to);
 
         if (Mathf.Abs(dot) > 0.9999f)
         {
@@ -43,7 +44,7 @@ public class Squad {
 
         var newFactor = Mathf.Sin(factor * theta) * sinT;
 
-        var invFactor = Mathf.Sin((1.0f - factor) * theta) * sinT; 
+        var invFactor = Mathf.Sin((1.0f - factor) * theta) * sinT;
 
         return new Quaternion(invFactor * fro.x + newFactor * to.x, invFactor * fro.y + newFactor * to.y, invFactor * fro.z + newFactor * to.z, invFactor * fro.w + newFactor * to.w);
 
@@ -52,7 +53,7 @@ public class Squad {
 
 
     // Returns a smooth approximation between q1 and q2 using t1 and t2 as 'tangents'
-    static Quaternion SQUAD(Quaternion q1 , Quaternion t1 , Quaternion t2 , Quaternion q2 , float t)
+    static Quaternion SQUAD(Quaternion q1, Quaternion t1, Quaternion t2, Quaternion q2, float t)
     {
         float slerpT = 2.0f * t * (1.0f - t);
 
@@ -74,13 +75,13 @@ public class Squad {
 
     }
 
-    static public void Exp(ref Quaternion a )
+    static public void Exp(ref Quaternion a)
     {
         float angle = Mathf.Sqrt(a.x * a.x + a.y * a.y + a.z * a.z);
 
         float sinAngle = Mathf.Sin(angle);
         a.w = Mathf.Cos(angle);
-    
+
         if (Mathf.Abs(sinAngle) >= 1.0e-15)
         {
             float coeff = sinAngle / angle;
@@ -88,9 +89,9 @@ public class Squad {
             a.y *= coeff;
             a.z *= coeff;
         }
-      
+
     }
-    static Quaternion Add(Quaternion a , Quaternion b )
+    static Quaternion Add(Quaternion a, Quaternion b)
     {
         var r = new Quaternion();
         r.w = a.w + b.w;
@@ -109,11 +110,11 @@ public class Squad {
     }
 
     // Tries to compute sensible tangent values for the quaternion
-    static Quaternion Intermediate(Quaternion q0, Quaternion q1, Quaternion q2 )
+    static Quaternion Intermediate(Quaternion q0, Quaternion q1, Quaternion q2)
     {
-        Quaternion q1inv  = Quaternion.Inverse(q1);
+        Quaternion q1inv = Quaternion.Inverse(q1);
 
-        Quaternion c1  = q1inv * q2;
+        Quaternion c1 = q1inv * q2;
 
         Quaternion c2 = q1inv * q0;
 
@@ -125,15 +126,15 @@ public class Squad {
 
         Exp(ref c3);// c3.Exp();
 
-        Quaternion r  = q1 * c3;
+        Quaternion r = q1 * c3;
 
         r.Normalize();
 
         return r;
     }
 
-     
-    
+
+
 
 
 }
