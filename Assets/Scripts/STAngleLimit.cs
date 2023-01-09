@@ -123,10 +123,10 @@ public class STAngleLimit : MonoBehaviour
     void LateUpdate()
     {
         // 回転制限
-        currentSwingTwist.x = Mathf.Clamp(currentSwingTwist.x, 0, SwingFunction(currentSwingTwist.y));
+        /* currentSwingTwist.x = Mathf.Clamp(currentSwingTwist.x, 0, SwingFunction(currentSwingTwist.y));
         currentSwingTwist.z = Mathf.Clamp(currentSwingTwist.z, twistLimit.x, twistLimit.y);
         Quaternion q = STInterconversion.SwingTwist2Quaternion(currentSwingTwist, twistAxisRight, twistAxisForward);
-        transform.localRotation = q;//initialRotation * q;
+        transform.localRotation = q;//initialRotation * q; */
     }
     public void SetSTAngle(Vector3 swingTwist)
     {

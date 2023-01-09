@@ -321,7 +321,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 497392413420135678, guid: f6fbd933d6d5ef44c8b4112d1da696fb, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -2
+      value: -2.731
       objectReference: {fileID: 0}
     - target: {fileID: 497392413420135678, guid: f6fbd933d6d5ef44c8b4112d1da696fb, type: 3}
       propertyPath: m_LocalPosition.y
@@ -389,7 +389,7 @@ MonoBehaviour:
   - {x: 180, y: 90}
   - {x: 270, y: 30}
   - {x: 360, y: 90}
-  twistLimit: {x: -30, y: 30}
+  twistLimit: {x: -45, y: 45}
   gizmoSize: 0.1
   twistAxisRight: {x: -1, y: 0, z: 0}
   twistAxisUp: {x: 0, y: -1, z: 0}
@@ -762,7 +762,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: 0.172
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1033,7 +1033,7 @@ MonoBehaviour:
   - {x: 180, y: 45}
   - {x: 270, y: 15}
   - {x: 360, y: 90}
-  twistLimit: {x: -180, y: 30}
+  twistLimit: {x: -30, y: 100}
   gizmoSize: 0.1
   twistAxisRight: {x: -1, y: 0, z: 0}
   twistAxisUp: {x: 0, y: -1, z: 0}
@@ -1173,7 +1173,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -1.5
+      value: -2.231
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1887,7 +1887,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0
+      value: -1
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.y
@@ -1895,7 +1895,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.395
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 423485970990392187, guid: 0182f8bb603626c48bbdc9d5ac78ab5c, type: 3}
       propertyPath: m_LocalRotation.w
@@ -2355,9 +2355,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   twistAxis: {x: -1, y: 0, z: 0}
   points:
-  - {x: 0, y: 45}
-  - {x: 180, y: 45}
-  - {x: 360, y: 45}
+  - {x: 0, y: 90}
+  - {x: 180, y: 120}
+  - {x: 360, y: 90}
   twistLimit: {x: -45, y: 45}
   gizmoSize: 0.1
   twistAxisRight: {x: -1, y: 0, z: 0}

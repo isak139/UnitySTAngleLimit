@@ -70,7 +70,8 @@ public class ST2pointSplineInterpolation : MonoBehaviour
             //STqs.z = Mathf.Clamp(STqs.z, targetSTAL.twistLimit.x, targetSTAL.twistLimit.y);
             qs = STInterconversion.SwingTwist2Quaternion(STqs, targetSTAL.twistAxisRight, targetSTAL.twistAxisForward);
 
-            Quaternion qt = Quaternion.Slerp(twistDiff, Quaternion.identity, (float)i / splits) * toTwist;
+            //Quaternion qt = Quaternion.Slerp(twistDiff, Quaternion.identity, (float)i / splits) * toTwist;
+            Quaternion qt = VGentSlerp.Slerp(twistDiff, Quaternion.identity, (float)i / splits) * toTwist;
             results[i] = qs * qt;
         }
     }
